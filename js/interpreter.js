@@ -1,4 +1,4 @@
-var Interpreter = function (source, tape, pointer, out) {
+var Interpreter = function (source, tape, pointer, out, instruction) {
     /*
     * Brainfuck Interpreter Class
     * @source: Brainfuck script
@@ -13,16 +13,23 @@ var Interpreter = function (source, tape, pointer, out) {
     *    pointer.get("index") // 1
     *
     * */
-    var tokens = source.replace(/[^<>+-.,\[\]]/g, ''),
+    var tokens = "<>+-.,[]";
+    var source = source,
         jumps = [],
         action = 0;
 
     this.next = function () {
-        if (action > tokens.length) throw {
+        if (action > source.length) throw {
             "name": "End",
             "message": "End of brainfuck script."
         };
-        var token = tokens[action];
+        // Skip non-code characters
+        if (tokens.indexOf(source[action]) === -1) {
+            action++;
+            return this.next();
+        }
+        instruction(action);
+        var token = source[action];
         var cell = tape.models[pointer.get("index")];
         switch (token) {
             case "<":
@@ -60,6 +67,6 @@ var Interpreter = function (source, tape, pointer, out) {
                     jumps.pop();
                 }
         }
-        action++;
+        return action++;
     }
 };

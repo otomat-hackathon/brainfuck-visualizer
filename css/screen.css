@@ -64,7 +64,7 @@ section.machine {
             margin: 40px 18px;
         }
 
-        section.editor textarea {
+        section.editor #source {
             width: 815px;
             height: 315px;
             background-color: #5b5b5b;
@@ -75,7 +75,15 @@ section.machine {
             color: #fff;
             font-family: monospace;
             padding: 10px;
+            white-space: pre-wrap;
+            display: inline-block;
+            overflow-y: scroll;
         }
+
+        section.editor #source span.caret {
+            background-color: #def;
+        }
+
         section.editor .button {
             padding: 10px 20px;
             margin-right: 10px;
