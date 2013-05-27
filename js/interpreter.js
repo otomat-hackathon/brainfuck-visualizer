@@ -58,8 +58,15 @@ var Interpreter = function (source, tape, pointer, out, instruction) {
                 if (cell.get("value") != 0) {
                     jumps.push(action);
                 } else {
-                    while(source[action] !== ']') {
+                    var loops = 1;
+                    while (loops > 0) {
                         action++;
+                        
+                        if (source[action] === "]") {
+                            loops--;
+                        } else if (source[action] === "[") {
+                            loops++;
+                        }
                     }
                 }
                 break;
