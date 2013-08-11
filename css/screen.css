@@ -94,6 +94,24 @@ section.machine {
             word-wrap: normal;
         }
 
+        section.editor #input-box {
+            float: right;
+            margin-right: 20px;
+            color: gray;
+            display: none;
+        }
+
+        section.editor #input {
+            margin-left:5px;
+            padding: 10px;
+            background-color: #eeeeee;
+            border: none;
+            width: 20px;
+            font-size: 16px;
+            text-align: center;
+            outline:none;
+        }
+
         section.editor #source span.caret {
             border-radius: 4px;
             background-color: #fff;

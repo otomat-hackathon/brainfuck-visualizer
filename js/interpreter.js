@@ -1,18 +1,20 @@
-var Interpreter = function (source, tape, pointer, out, instruction) {
+var Interpreter = function (source, tape, pointer,
+                            out, awaitInput, instruction) {
     /*
-    * Brainfuck Interpreter Class
-    * @source: Brainfuck script
-    * @tape: Tape model
-    * @pointer: Pointer model
-    * @out: Output callback
-    *
-    * Usage:
-    *
-    *    var interpreter = new Interpreter(">", tape, pointer);
-    *    interpreter.next()
-    *    pointer.get("index") // 1
-    *
-    * */
+     * Brainfuck Interpreter Class
+     * @source: Brainfuck script
+     * @tape: Tape model
+     * @pointer: Pointer model
+     * @out: Output callback
+     * @awaitInput: Input callback 
+     *
+     * Usage:
+     *
+     *    var interpreter = new Interpreter(">", tape, pointer);
+     *    interpreter.next()
+     *    pointer.get("index") // 1
+     *
+     * */
     var tokens = "<>+-.,[]";
     var jumps = [], action = 0;
 
@@ -30,53 +32,53 @@ var Interpreter = function (source, tape, pointer, out, instruction) {
         var token = source[action];
         var cell = tape.models[pointer.get("index")];
         switch (token) {
-            case "<":
-                pointer.left();
-                break;
+        case "<":
+            pointer.left();
+            break;
 
-            case ">":
-                pointer.right();
-                break;
+        case ">":
+            pointer.right();
+            break;
 
-            case "-":
-                cell.dec();
-                break;
+        case "-":
+            cell.dec();
+            break;
 
-            case "+":
-                cell.inc();
-                break;
+        case "+":
+            cell.inc();
+            break;
 
-            case ",":
-                // not implemented
-                break;
+        case ",":
+	    awaitInput(cell);
+            break;
 
-            case ".":
-                out(cell);
-                break;
+        case ".":
+            out(cell);
+            break;
 
-            case "[":
-                if (cell.get("value") != 0) {
-                    jumps.push(action);
-                } else {
-                    var loops = 1;
-                    while (loops > 0) {
-                        action++;
-                        
-                        if (source[action] === "]") {
-                            loops--;
-                        } else if (source[action] === "[") {
-                            loops++;
-                        }
+        case "[":
+            if (cell.get("value") != 0) {
+                jumps.push(action);
+            } else {
+                var loops = 1;
+                while (loops > 0) {
+                    action++;
+                    
+                    if (source[action] === "]") {
+                        loops--;
+                    } else if (source[action] === "[") {
+                        loops++;
                     }
                 }
-                break;
+            }
+            break;
 
-            case "]":
-                if (cell.get("value") != 0) {
-                    action = jumps[jumps.length - 1];
-                } else {
-                    jumps.pop();
-                }
+        case "]":
+            if (cell.get("value") != 0) {
+                action = jumps[jumps.length - 1];
+            } else {
+                jumps.pop();
+            }
         }
         return action++;
     }

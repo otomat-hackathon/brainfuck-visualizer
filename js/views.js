@@ -57,9 +57,11 @@ var InterpreterView = Backbone.View.extend({
         "click #pause": "pause",
         "click #continue": "continue",
         "click #stop": "stop",
-        "keyup #source": "sourceChange"
+        "keyup #source": "sourceChange",
+        "change #input": "recieveInput"
     },
     render: function () {
+	this.input  = this.$el.find("#input");
         this.output = this.$el.find("#output");
         this.buttons = new ButtonSwitchView({
             el: this.el
@@ -72,16 +74,29 @@ var InterpreterView = Backbone.View.extend({
     run: function () {
         this.reset();
         this.output.empty();
+        this.input.val("");
         this.interpreter = new Interpreter(
             this.editor.text(),
             this.tape,
             this.pointer,
             this.out.bind(this),
+            this.awaitInput.bind(this),
             this.instruction.bind(this));
         this.continue();
     },
     out: function (cell) {
         this.output.append(cell.char());
+    },
+    awaitInput: function (cell) {
+        this.input.parent().show();
+        this.pause();
+        this.inputTarget = cell;
+    },
+    recieveInput: function () {
+        this.inputTarget.put(this.input.val());
+        this.input.parent().hide();
+        this.input.val("");
+        this.continue();
     },
     instruction: function(index) {
         this.editor.find("span.caret").contents().unwrap();
