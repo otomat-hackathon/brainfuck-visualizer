@@ -112,8 +112,14 @@
 
     <script type="text/javascript">
         $(function () {
-            var cells = _(27).times($.noop);
-            var tape = new Tape(cells);
+            var cells = new Cells(_.range(27).map(function (index) {
+                return { index: index };
+            }));
+            var tape = new Tape({
+                cells: cells,
+                windowStart: 0,
+                windowSize: cells.length
+            });
             var pointer = new Pointer();
             new InterpreterView({
                 editor: $("#source"),

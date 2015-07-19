@@ -6,6 +6,9 @@ var Cell = Backbone.Model.extend({
     defaults: {
         value: 0
     },
+    initialize: function (options) {
+        this.set("index", options.index);
+    },
     inc: function () {
         if (this.get("value") == 255) {
             this.set("value", 0);
@@ -28,8 +31,14 @@ var Cell = Backbone.Model.extend({
     }
 });
 
-var Tape = Backbone.Collection.extend({
+var Cells = Backbone.Collection.extend({
     model: Cell
+});
+
+var Tape = Backbone.Model.extend({
+    tapeIndex: function (cellIndex) {
+        return cellIndex - this.get("cells").first().get("index");
+    }
 });
 
 var Pointer = Backbone.Model.extend({

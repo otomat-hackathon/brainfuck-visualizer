@@ -19,10 +19,15 @@ section.machine {
         height: 32px;
     }
 
+        ul.tape .cell-index {
+            font-size: 0.5em;
+        }
+
         ul.tape li {
             list-style-type: none;
             border: 1px solid #aeaeae;
             float: left;
+            margin-top: -19px;
             width: 30px;
             height: 23px;
             text-align: center;

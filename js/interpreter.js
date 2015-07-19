@@ -41,12 +41,14 @@ var Interpreter = function (source, tape, pointer,
             return this.next();
         }
         var index = pointer.get("index");
-        if (index < 0 || index >= tape.models.length) {
+        var firstIndex = tape.get("cells").first().get("index");
+        var lastIndex = tape.get("cells").last().get("index");
+        if (index < firstIndex || lastIndex < index) {
             throw error("Memory error: " + index);
         }
         instruction(action);
         var token = source[action];
-        var cell = tape.models[index];
+        var cell = tape.get("cells").at(index - firstIndex);
         switch (token) {
         case "<":
             pointer.left();
