@@ -11,8 +11,8 @@ var CellView = Backbone.View.extend({
         return this;
     }
 }, {
-    template: _.template("<span class=cell-index><%= index %></span>" +
-                         "<br><%= value %>"),
+    template: _.template("<div class=cell-index><%= index %></div>" +
+                         "<div class=cell-value><%= value %></div>"),
 });
 
 var PointerView = Backbone.View.extend({
