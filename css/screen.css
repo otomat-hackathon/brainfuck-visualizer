@@ -21,17 +21,25 @@ section.machine {
 
         ul.tape li {
             list-style-type: none;
-            border: 1px solid #aeaeae;
             float: left;
+            margin-top: -9px;
             width: 30px;
             height: 23px;
             text-align: center;
-            padding-top: 7px;
-            border-right: none;
             color: gray;
         }
 
-        ul.tape li:last-child {
+        ul.tape .cell-index {
+            font-size: 0.5em;
+        }
+
+        ul.tape .cell-value {
+            border: 1px solid #aeaeae;
+            padding-top: 7px;
+            border-right: none;
+        }
+
+        ul.tape li:last-child .cell-value {
             border: 1px solid #aeaeae;
         }
 

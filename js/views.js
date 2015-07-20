@@ -4,20 +4,28 @@ var CellView = Backbone.View.extend({
         this.model.on('change', this.render, this);
     },
     render: function () {
-        this.$el.html(this.model.get("value"));
+        this.$el.html(CellView.template({
+            index: this.model.get("index"),
+            value: this.model.get("value")
+        }));
         return this;
     }
+}, {
+    template: _.template("<div class=cell-index><%= index %></div>" +
+                         "<div class=cell-value><%= value %></div>"),
 });
 
 var PointerView = Backbone.View.extend({
     el: "div.pointer",
     initialize: function (options) {
-        this.model.on("change", this.render, this);
+        this.model.on("move", this.render, this);
         this.interpreter = options.interpreter;
+        this.tape = options.tape;
     },
     render: function () {
+        var offset = this.model.get("index") - this.tape.get("windowStart");
         this.$el.animate({
-            "margin-left": this.model.get("index") * this.$el.width()
+            "margin-left": offset * this.$el.width()
         }, 30);
         return this;
     }
@@ -28,17 +36,78 @@ var TapeView = Backbone.View.extend({
     initialize: function (options) {
         this.pointer = options.pointer;
         this.interpreter = options.interpreter;
+        this.pointer.on("change", this.handlePointerMove, this);
+    },
+    handlePointerMove: function () {
+        var index = this.pointer.get("index");
+
+        if (index < this.model.get("cells").first().get("index")) {
+            this.model.get("cells").unshift({ index: index });
+        } else if (this.model.get("cells").last().get("index") < index) {
+            this.model.get("cells").push({ index: index });
+        }
+
+        var windowStart = this.model.get("windowStart");
+        var windowEnd = windowStart + this.model.get("windowSize") - 1;
+
+        if (index < windowStart) {
+            while (index != windowStart--) {
+                this.moveWindowLeft();
+            }
+        } else if (windowEnd < index) {
+            while (index != windowEnd++) {
+                this.moveWindowRight();
+            }
+        }
+
+        this.pointer.trigger("move");
+    },
+    moveWindowLeft: function () {
+        var windowStart = this.model.get("windowStart") - 1;
+        this.model.set("windowStart", windowStart);
+
+        _(this.cellViews).last().remove();
+        this.cellViews.pop();
+        var cell = this.model.get("cells").at(this.model.tapeIndex(windowStart));
+        var cellView = new CellView({
+            model: cell
+        }, this);
+        this.cellViews.unshift(cellView);
+        this.$el.prepend(cellView.render().el);
+    },
+    moveWindowRight: function () {
+        var windowStart = this.model.get("windowStart");
+        var windowEnd = windowStart + this.model.get("windowSize");
+        this.model.set("windowStart", ++windowStart);
+
+        _(this.cellViews).first().remove();
+        this.cellViews.shift();
+        var cell = this.model.get("cells").at(this.model.tapeIndex(windowEnd));
+        var cellView = new CellView({
+            model: cell
+        }, this);
+        this.cellViews.push(cellView);
+        this.$el.append(cellView.render().el);
     },
     render: function () {
-        _.forEach(this.model.models, function (model) {
-            this.$el.append((new CellView({
-                model: model
-            })).render().el);
+        var windowStart = this.model.get("windowStart");
+        var windowEnd = windowStart + this.model.get("windowSize") - 1;
+        var cells = this.model.get("cells");
+        cells = cells.slice(this.model.tapeIndex(windowStart),
+                            this.model.tapeIndex(windowEnd) + 1);
+
+        this.cellViews = _.map(cells, function (cell) {
+            var cellView = new CellView({
+                model: cell
+            });
+            this.$el.append(cellView.render().el);
+            return cellView;
         }, this);
 
         new PointerView({
             model: this.pointer,
-            interpreter: this.interpreter
+            interpreter: this.interpreter,
+            tape: this.model
         }).render();
 
         return this;
@@ -167,8 +236,8 @@ var InterpreterView = Backbone.View.extend({
     },
     reset: function () {
         this.pointer.set("index", 0);
-        _(this.tape.models).forEach(function (model) {
-            model.set("value", 0);
+        this.tape.get("cells").forEach(function (cell) {
+            cell.set("value", 0);
         }, this);
     },
     stop: function () {

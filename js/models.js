@@ -6,6 +6,9 @@ var Cell = Backbone.Model.extend({
     defaults: {
         value: 0
     },
+    initialize: function (options) {
+        this.set("index", options.index);
+    },
     inc: function () {
         if (this.get("value") == 255) {
             this.set("value", 0);
@@ -28,8 +31,25 @@ var Cell = Backbone.Model.extend({
     }
 });
 
-var Tape = Backbone.Collection.extend({
+var Cells = Backbone.Collection.extend({
     model: Cell
+});
+
+var Tape = Backbone.Model.extend({
+    tapeIndex: function (index) {
+        var firstIndex = this.get("cells").first().get("index");
+        var lastIndex = this.get("cells").last().get("index");
+        if (index < firstIndex || lastIndex < index) {
+            throw {
+                name: "Error",
+                message: "Memory error: " + index
+            };
+        }
+        return index - firstIndex;
+    },
+    cellAt: function (index) {
+        return this.get("cells").at(this.tapeIndex(index));
+    }
 });
 
 var Pointer = Backbone.Model.extend({
