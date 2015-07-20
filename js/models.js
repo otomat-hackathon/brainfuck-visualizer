@@ -36,8 +36,19 @@ var Cells = Backbone.Collection.extend({
 });
 
 var Tape = Backbone.Model.extend({
-    tapeIndex: function (cellIndex) {
-        return cellIndex - this.get("cells").first().get("index");
+    tapeIndex: function (index) {
+        var firstIndex = this.get("cells").first().get("index");
+        var lastIndex = this.get("cells").last().get("index");
+        if (index < firstIndex || lastIndex < index) {
+            throw {
+                name: "Error",
+                message: "Memory error: " + index
+            };
+        }
+        return index - firstIndex;
+    },
+    cellAt: function (index) {
+        return this.get("cells").at(this.tapeIndex(index));
     }
 });
 

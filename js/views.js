@@ -91,9 +91,10 @@ var TapeView = Backbone.View.extend({
     },
     render: function () {
         var windowStart = this.model.get("windowStart");
-        var windowEnd = windowStart + this.model.get("windowSize");
-        var cells = this.model.get("cells").slice(this.model.tapeIndex(windowStart),
-                                                  this.model.tapeIndex(windowEnd));
+        var windowEnd = windowStart + this.model.get("windowSize") - 1;
+        var cells = this.model.get("cells");
+        cells = cells.slice(this.model.tapeIndex(windowStart),
+                            this.model.tapeIndex(windowEnd) + 1);
 
         this.cellViews = _.map(cells, function (cell) {
             var cellView = new CellView({
