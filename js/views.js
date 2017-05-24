@@ -104,8 +104,17 @@ var InterpreterView = Backbone.View.extend({
         this.output.empty();
         this.output.removeClass("error");
         this.input.val("");
+        var code = this.editor.val();
+        code = code.replace(/HERP/g,">___");
+        code = code.replace(/DERP/g,"<___");
+        code = code.replace(/HURR/g,"+___");
+        code = code.replace(/DURR/g,"-___");
+        code = code.replace(/GIGGITY/g,".______");
+        code = code.replace(/GOO/g,",__");
+        code = code.replace(/WOOPY/g,"[____");
+        code = code.replace(/DOO/g,"]__");
         this.interpreter = new Interpreter(
-            this.editor.val(),
+            code,
             this.tape,
             this.pointer,
             this.out.bind(this),
