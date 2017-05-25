@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Brainfuck Visualizer</title>
+    <title>DerpPlusPlus Visualizer</title>
     <link rel="stylesheet" href="css/screen.css" />
     <script type="text/javascript" src="js/lib/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="js/lib/underscore-min.js"></script>
@@ -48,27 +48,29 @@
                 </div>
             </div>
             <div id="preview"></div>
-			<textarea id="source">+++++ +++++             initialize counter (cell #0) to 10
-[                       use loop to set 70/100/30/10
-    > +++++ ++              add  7 to cell #1
-    > +++++ +++++           add 10 to cell #2
-    > +++                   add  3 to cell #3
-    > +                     add  1 to cell #4
-<<<< -                  decrement counter (cell #0)
-]
-> ++ .                  print 'H'
-> + .                   print 'e'
-+++++ ++ .              print 'l'
-.                       print 'l'
-+++ .                   print 'o'
-> ++ .                  print ' '
-<< +++++ +++++ +++++ .  print 'W'
-> .                     print 'o'
-+++ .                   print 'r'
------ - .               print 'l'
------ --- .             print 'd'
-> + .                   print '!'
-> .                     print '\n'</textarea>
+			<textarea id="source">
+HURRHURRHURRHURRHURR HURRHURRHURRHURRHURR                       initialize counter (cell #0) to 10
+WOOPY                                                           use loop to set 70/100/30/10
+    HERP HURRHURRHURRHURRHURR HURRHURR                          add  7 to cell #1
+    HERP HURRHURRHURRHURRHURR HURRHURRHURRHURRHURR              add 10 to cell #2
+    HERP HURRHURRHURR                                           add  3 to cell #3
+    HERP HURR                                                   add  1 to cell #4
+DERPDERPDERPDERP DURR                                           decrement counter (cell #0)
+DOO
+HERP HURRHURR GIGGITY                                           print 'H'
+HERP HURR GIGGITY                                               print 'e'
+HURRHURRHURRHURRHURR HURRHURR GIGGITY                           print 'l'
+GIGGITY                                                         print 'l'
+HURRHURRHURR GIGGITY                                            print 'o'
+HERP HURRHURR GIGGITY                                           print ' '
+DERPDERP HURRHURRHURRHURRHURR HURRHURRHURRHURRHURR
+HURRHURRHURRHURRHURR                                            GIGGITY  print 'W'
+HERP GIGGITY                                                    print 'o'
+HURRHURRHURR GIGGITY                                            print 'r'
+DURRDURRDURRDURRDURR DURR GIGGITY                               print 'l'
+DURRDURRDURRDURRDURR DURRDURRDURR GIGGITY                       print 'd'
+HERP HURR GIGGITY                                               print '!'
+HERP GIGGITY                                                    print '\n'</textarea>
         <h3>Output</h3>
         <pre id="output"></pre>
         </section>
@@ -80,36 +82,36 @@
         <table>
             <tbody>
             <tr>
-                <td style="text-align:center"><code>&gt;</code></td>
+                <td style="text-align:center"><input type="text" id="HERP" value="HERP"></td>
                 <td>increment the data pointer (to point to the next cell to the right).</td>
             </tr>
             <tr>
-                <td style="text-align:center"><code>&lt;</code></td>
+                <td style="text-align:center"><input type="text" id="DERP" value="DERP"></td>
                 <td>decrement the data pointer (to point to the next cell to the left).</td>
             </tr>
             <tr>
-                <td style="text-align:center"><code>+</code></td>
+                <td style="text-align:center"><input type="text" id="HURR" value="HURR"></td>
                 <td>increment (increase by one) the byte at the data pointer.</td>
             </tr>
             <tr>
-                <td style="text-align:center"><code>-</code></td>
+                <td style="text-align:center"><input type="text" id="DURR" value="DURR"></td>
                 <td>decrement (decrease by one) the byte at the data pointer.</td>
             </tr>
             <tr>
-                <td style="text-align:center"><code>.</code></td>
+                <td style="text-align:center"><input type="text" id="GIGGITY" value="GIGGITY"></td>
                 <td>output the byte at the data pointer.</td>
             </tr>
             <tr>
-                <td style="text-align:center"><code>,</code></td>
+                <td style="text-align:center"><input type="text" id="GOO" value="GOO"></td>
                 <td>accept one byte of input, storing its value in the byte at the data pointer.</td>
             </tr>
             <tr>
-                <td style="text-align:center"><code>[</code></td>
-                <td>if the byte at the data pointer is zero, then instead of moving the <a href="/wiki/Program_Counter" title="Program Counter" class="mw-redirect">instruction pointer</a> forward to the next command, <a href="/wiki/Branch_(computer_science)" title="Branch (computer science)">jump</a> it <i>forward</i> to the command after the <i>matching</i> <code>]</code> command.</td>
+                <td style="text-align:center"><input type="text" id="WOOPY" value="WOOPY"></td>
+                <td>if the byte at the data pointer is zero, then instead of moving the <a href="/wiki/Program_Counter" title="Program Counter" class="mw-redirect">instruction pointer</a> forward to the next command, <a href="/wiki/Branch_(computer_science)" title="Branch (computer science)">jump</a> it <i>forward</i> to the command after the <i>matching</i> <code>DOO</code> command.</td>
             </tr>
             <tr>
-                <td style="text-align:center"><code>]</code></td>
-                <td>if the byte at the data pointer is nonzero, then instead of moving the instruction pointer forward to the next command, jump it <i>back</i> to the command after the <i>matching</i> <code>[</code> command.</td>
+                <td style="text-align:center"><input type="text" id="DOO" value="DOO"></td>
+                <td>if the byte at the data pointer is nonzero, then instead of moving the instruction pointer forward to the next command, jump it <i>back</i> to the command after the <i>matching</i> <code>WOOPY</code> command.</td>
             </tr>
             <tr>
                 <td style="text-align:center"><code>!</code></td>

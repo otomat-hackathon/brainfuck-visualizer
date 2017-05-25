@@ -36,9 +36,9 @@ var Interpreter = function (source, tape, pointer,
 
         if (source[i] == '!') {
           pipe = true;
-        }	
+        }
       }
-      this.initialized = true;      
+      this.initialized = true;
     };
     this.getNext = function() {
       var c = this.buffer.charCodeAt(0);
@@ -71,7 +71,7 @@ var Interpreter = function (source, tape, pointer,
     }
 
     // Skip non-code characters
-    if (tokens.indexOf(source[action]) === -1) {   
+    if (tokens.indexOf(source[action]) === -1) {
       action++;
       return this.next(optimize);
     }
@@ -168,7 +168,7 @@ var Interpreter = function (source, tape, pointer,
         } else {
           jumps.pop();
         }
-        break; 
+        break;
       case "!":
         tokens = "";
         break;

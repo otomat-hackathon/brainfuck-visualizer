@@ -21,6 +21,3 @@ More information:
 - Asger Hautop Drewsen ([tyilo](https://github.com/Tyilo))
 - Dwillie ([dwille](https://github.com/dwillie))
 - Eugene Sharygin ([eush77](https://github.com/eush77))
-
-### Demo
-<http://fatiherikli.github.io/brainfuck-visualizer>
