@@ -1,3 +1,22 @@
+function stringOfLength(string,command) {
+  var substr = "";
+  for(var i = 0; i < string.length-1; i++) {
+    substr+="_";
+  }
+  return command + substr;
+}
+function replace(string) {
+  string = string.replace(new RegExp(document.getElementById("HERP").value, "g"),stringOfLength(document.getElementById("HERP").value, ">"));
+  string = string.replace(new RegExp(document.getElementById("DERP").value, "g"),stringOfLength(document.getElementById("DERP").value, "<"));
+  string = string.replace(new RegExp(document.getElementById("HURR").value, "g"),stringOfLength(document.getElementById("HURR").value, "+"));
+  string = string.replace(new RegExp(document.getElementById("DURR").value, "g"),stringOfLength(document.getElementById("DURR").value, "-"));
+  string = string.replace(new RegExp(document.getElementById("GIGGITY").value, "g"),stringOfLength(document.getElementById("GIGGITY").value, "."));
+  string = string.replace(new RegExp(document.getElementById("GOO").value, "g"),stringOfLength(document.getElementById("GOO").value, ","));
+  string = string.replace(new RegExp(document.getElementById("WOOPY").value, "g"),stringOfLength(document.getElementById("WOOPY").value, "["));
+  string = string.replace(new RegExp(document.getElementById("DOO").value, "g"),stringOfLength(document.getElementById("DOO").value, "]"));
+  return string;
+}
+
 var CellView = Backbone.View.extend({
     tagName: "li",
     initialize: function () {
@@ -104,17 +123,8 @@ var InterpreterView = Backbone.View.extend({
         this.output.empty();
         this.output.removeClass("error");
         this.input.val("");
-        var code = this.editor.val();
-        code = code.replace(/HERP/g,">___");
-        code = code.replace(/DERP/g,"<___");
-        code = code.replace(/HURR/g,"+___");
-        code = code.replace(/DURR/g,"-___");
-        code = code.replace(/GIGGITY/g,".______");
-        code = code.replace(/GOO/g,",__");
-        code = code.replace(/WOOPY/g,"[____");
-        code = code.replace(/DOO/g,"]__");
         this.interpreter = new Interpreter(
-            code,
+            replace(this.editor.val()),
             this.tape,
             this.pointer,
             this.out.bind(this),
