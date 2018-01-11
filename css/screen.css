@@ -118,6 +118,10 @@ section.machine {
             outline:none;
         }
 
+        section.editor #input:invalid {
+            border: solid 2px red;
+        }
+
         section.editor #delay-box {
             float: right;
             margin-right: 25px;
