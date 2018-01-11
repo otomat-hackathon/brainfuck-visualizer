@@ -17,7 +17,10 @@ var Cell = Backbone.Model.extend({
         this.set("value", val);
     },
     put: function (c) {
-        this.set("value", c.charCodeAt(0));
+        var isHex = $('#hex-io').is(':checked');
+
+        var value = isHex ? parseInt(c, 16) : c.charCodeAt(0);
+        this.set("value", value);
     },
     char: function () {
         return String.fromCharCode(this.get("value"))
