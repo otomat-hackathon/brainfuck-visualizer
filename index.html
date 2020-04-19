@@ -4,6 +4,7 @@
     <title>Brainfuck Visualizer</title>
     <link rel="stylesheet" href="css/screen.css" />
     <script type="text/javascript" src="js/lib/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="js/lib/jquery-validity-selectors.js"></script>
     <script type="text/javascript" src="js/lib/underscore-min.js"></script>
     <script type="text/javascript" src="js/lib/backbone-min.js"></script>
     <script type="text/javascript" src="js/interpreter.js"></script>
@@ -41,6 +42,10 @@
                 <div id="exclaim-box">
                     <label for="exclaim">!</label>
                     <input id="exclaim" type="checkbox"/>
+                </div>
+                <div id="hex-io-box">
+                    <label for="hex-io">Hex</label>
+                    <input id="hex-io" title="Allows to input hex values instead of plaintext characters" type="checkbox"/>
                 </div>
                 <div id="input-box">
                     <label>Waiting for input</label>

@@ -118,6 +118,10 @@ section.machine {
             outline:none;
         }
 
+        section.editor #input:invalid {
+            border: solid 2px red;
+        }
+
         section.editor #delay-box {
             float: right;
             margin-right: 25px;
@@ -159,6 +163,21 @@ section.machine {
         }
 
         section.editor #exclaim-box input {
+          
+        }
+
+        section.editor #hex-io-box {
+            float: right;
+            margin-right: 25px;
+            text-align:center;
+        }
+
+        section.editor #hex-io-box label {
+            display: block;
+            color: gray;
+        }
+
+        section.editor #hex-io-box input {
           
         }
 

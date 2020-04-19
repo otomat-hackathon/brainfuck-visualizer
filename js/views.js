@@ -61,6 +61,7 @@ var InterpreterView = Backbone.View.extend({
         "click #pause": "pause",
         "click #continue": "loop",
         "click #stop": "stop",
+        "change #hex-io": "updateInputPattern",
         "change #input": "receiveInput",
         "change #delay": "changeDelay",
         "input #source": "setShareURL",
@@ -131,10 +132,12 @@ var InterpreterView = Backbone.View.extend({
         this.inputTarget = cell;
     },
     receiveInput: function () {
-        this.inputTarget.put(this.input.val());
-        this.input.parent().hide();
-        this.input.val("");
-        this.loop();
+        if (this.input.is(":valid")) {
+            this.inputTarget.put(this.input.val());
+            this.input.parent().hide();
+            this.input.val("");
+            this.loop();
+        }
     },
     removeCaret: function () {
         this.editor
@@ -199,6 +202,14 @@ var InterpreterView = Backbone.View.extend({
             this.loop();
         } else {
             this.delay = $("#delay").val();
+        }
+    },
+    updateInputPattern: function () {
+        var $hex = $("#hex-io");
+        if ($hex.is(":checked")) {
+            this.input.attr("pattern", "[0-9a-fA-F]{1,2}").removeAttr("maxlength");
+        } else {
+            this.input.attr("maxlength", "1").removeAttr("pattern");
         }
     }
 });
